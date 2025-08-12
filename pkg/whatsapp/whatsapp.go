@@ -13,6 +13,7 @@ func SendWA(chatID string, Name string) {
 	headers := map[string]string{
 		"Accept":       "application/json",
 		"Content-Type": "application/json",
+		"X-Api-Key":    "<api-key-here>",
 	}
 
 	data := map[string]interface{}{

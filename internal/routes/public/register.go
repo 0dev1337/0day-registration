@@ -29,7 +29,7 @@ func Register(c fiber.Ctx) error {
 		})
 	}
 
-	if student.Name == "" || student.Phone == "" || student.Roll == "" || student.DiscordUsername == "" || student.StudentEmailID == "" {
+	if student.Name == "" || student.Phone == "" || student.Roll == "" || student.StudentEmailID == "" {
 		return helpers.Response(c, fiber.ErrBadRequest.Code, `{"sucess":"false","message":"Missing or Empty Required Fields"}`)
 	}
 
