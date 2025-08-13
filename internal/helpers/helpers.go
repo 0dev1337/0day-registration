@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -26,20 +27,17 @@ func Response(c fiber.Ctx, status int, data ...any) error {
 }
 
 func FormatResponse(raw string) (string, error) {
-	// Step 1: Parse the outer JSON
 	var outer map[string]string
 	if err := json.Unmarshal([]byte(raw), &outer); err != nil {
 		return "", fmt.Errorf("failed to parse outer JSON: %w", err)
 	}
 
-	// Step 2: Extract and unmarshal the inner JSON string
 	messageStr := outer["message"]
 	var inner any
 	if err := json.Unmarshal([]byte(messageStr), &inner); err != nil {
 		return "", fmt.Errorf("failed to parse inner JSON: %w", err)
 	}
 
-	// Step 3: Pretty-print the inner JSON
 	prettyJSON, err := json.MarshalIndent(inner, "", "  ")
 	if err != nil {
 		return "", fmt.Errorf("failed to marshal pretty JSON: %w", err)
@@ -57,4 +55,26 @@ func SaveBodyToFile(body io.Reader) error {
 
 	_, err = io.Copy(file, body)
 	return err
+}
+func CheckPhoneInCSV(filePath string, targetNumber string) (bool, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return false, err
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+
+	records, err := reader.ReadAll()
+	if err != nil {
+		return false, err
+	}
+
+	for _, record := range records[1:] {
+		if len(record) >= 4 && record[3] == targetNumber {
+			return true, nil
+		}
+	}
+
+	return false, nil
 }

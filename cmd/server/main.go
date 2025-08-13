@@ -8,11 +8,10 @@ import (
 )
 
 func main() {
-
 	app := fiber.New()
 	app.Use(cors.New())
 
-	// Setup Routes
 	routes.SetupRoutes(app)
+
 	app.Listen(":3001")
 }

@@ -134,3 +134,26 @@ func (c *MongoDB) DeleteOne(queryData bson.M, collection *mongo.Collection) (*mo
 
 	return reply, nil
 }
+
+func (c *MongoDB) FindAll(collection *mongo.Collection) ([]bson.M, error) {
+	cursor, err := collection.Find(context.Background(), bson.M{})
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(context.Background())
+
+	var results []bson.M
+	for cursor.Next(context.Background()) {
+		var doc bson.M
+		if err := cursor.Decode(&doc); err != nil {
+			return nil, err
+		}
+		results = append(results, doc)
+	}
+
+	if err := cursor.Err(); err != nil {
+		return nil, err
+	}
+
+	return results, nil
+}

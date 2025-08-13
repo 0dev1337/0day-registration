@@ -13,24 +13,27 @@ func SendWA(chatID string, Name string) {
 	headers := map[string]string{
 		"Accept":       "application/json",
 		"Content-Type": "application/json",
-		"X-Api-Key":    "<api-key-here>",
+		"X-Api-Key":    "",
 	}
 
 	data := map[string]interface{}{
 		"chatId": fmt.Sprintf("91%s@s.whatsapp.net", chatID),
-		"text": `🎉 *Welcome to Club 0day!* 🎉
+		"text": fmt.Sprintf(`Hey %s 🎉 *Welcome to Club 0day!* 🎉
 
-You're officially a member! 🚀  
+You're officially a member! 🚀
 We're thrilled to have you with us. Here's how you can stay connected:
 
-💬 *Join our community*:  
-  - *WhatsApp*: https://chat.whatsapp.com/IMRoMajx2J27FNoPMi5VzC  
-  - *Discord*: https://discord.gg/VB4FMbuukE
+💬 *Join our community:*
+- WhatsApp: https://chat.whatsapp.com/DxVzQ3XbMdk6KMsmapmHN9
+
+- Discord: https://discord.gg/VB4FMbuukE
 
 📞 *Need help?* Reach out to Arya: 7603061337
 
-Let's innovate, learn, and grow together! 💡  
-Excited to see you in action! 🔥`,
+*Note : If link is not clickable,forward this message to this account itself and it will work.*
+
+Let's innovate, learn, and grow together! 💡
+Excited to see you in action! 🔥`, Name), // <- pass the name variable here
 		"session": "default",
 	}
 

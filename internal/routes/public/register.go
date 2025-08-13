@@ -2,9 +2,9 @@ package routes
 
 import (
 	"0day-backend/internal/helpers"
+	"0day-backend/internal/mailer"
 	"0day-backend/pkg/logging"
 	"0day-backend/pkg/mongodb"
-	"0day-backend/pkg/whatsapp"
 	"strings"
 
 	"github.com/gofiber/fiber/v3"
@@ -57,7 +57,7 @@ func Register(c fiber.Ctx) error {
 	if err != nil {
 		logging.Logger.Error().Msgf("Failed to insert Registrations into database: %v", err)
 	}
-	go whatsapp.SendWA(student.Phone, student.Name)
+	go mailer.SendEmail(student.StudentEmailID, student.Name)
 	return helpers.Response(c, fiber.StatusOK, `{"sucess":"true","message":"User Has Been Registered Successfully"}`)
 
 }
